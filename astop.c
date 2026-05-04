@@ -417,22 +417,22 @@ static void dump_ast(zend_ast *ast, int depth, const char *label)
 {
     if (!ast) return;
     if (depth > 200) {
-        for (int i = 0; i < depth; i++) fprintf(stdout, "  ");
-        fprintf(stdout, "...\n");
+        for (int i = 0; i < depth; i++) fprintf(stderr,"  ");
+        fprintf(stderr,"...\n");
         return;
     }
 
     char extra[64];
     format_ast_extra(extra, sizeof(extra), ast);
-    for (int i = 0; i < depth; i++) fprintf(stdout, "  ");
+    for (int i = 0; i < depth; i++) fprintf(stderr,"  ");
     if (label && extra[0])
-        fprintf(stdout, "%s: %s(%s) lineno=%u\n", label, ast_kind_name(ast->kind), extra, zend_ast_get_lineno(ast));
+        fprintf(stderr,"%s: %s(%s) lineno=%u\n", label, ast_kind_name(ast->kind), extra, zend_ast_get_lineno(ast));
     else if (label)
-        fprintf(stdout, "%s: %s lineno=%u\n", label, ast_kind_name(ast->kind), zend_ast_get_lineno(ast));
+        fprintf(stderr,"%s: %s lineno=%u\n", label, ast_kind_name(ast->kind), zend_ast_get_lineno(ast));
     else if (extra[0])
-        fprintf(stdout, "%s(%s) lineno=%u\n", ast_kind_name(ast->kind), extra, zend_ast_get_lineno(ast));
+        fprintf(stderr,"%s(%s) lineno=%u\n", ast_kind_name(ast->kind), extra, zend_ast_get_lineno(ast));
     else
-        fprintf(stdout, "%s lineno=%u\n", ast_kind_name(ast->kind), zend_ast_get_lineno(ast));
+        fprintf(stderr,"%s lineno=%u\n", ast_kind_name(ast->kind), zend_ast_get_lineno(ast));
 
     if (zend_ast_is_list(ast)) {
         zend_ast_list *list = zend_ast_get_list(ast);
@@ -458,9 +458,9 @@ static void dump_ast(zend_ast *ast, int depth, const char *label)
 
 static void astop_ast_process(zend_ast *ast)
 {
-    fprintf(stdout, "\n=== AST ===\n");
+    fprintf(stderr,"\n=== AST ===\n");
     dump_ast(ast, 0, NULL);
-    fprintf(stdout, "\n");
+    fprintf(stderr,"\n");
     if (original_ast_process) original_ast_process(ast);
 }
 
@@ -509,8 +509,8 @@ static void dump_op_array(zend_op_array *op_array)
 
 #define OPCOL_W 13
 
-    fprintf(stdout, "=== OPCODES %s ===\n", name);
-    fprintf(stdout, "%6s %4s  %-26s %-*s %-*s %s\n",
+    fprintf(stderr,"=== OPCODES %s ===\n", name);
+    fprintf(stderr,"%6s %4s  %-26s %-*s %-*s %s\n",
         "line", "num", "opcode",
         OPCOL_W, "op1", OPCOL_W, "op2", "result");
     for (uint32_t i = 0; i < op_array->last; i++) {
@@ -526,13 +526,13 @@ static void dump_op_array(zend_op_array *op_array)
                 cols[c][OPCOL_W] = '\0';
             }
         }
-        fprintf(stdout, "%6u %4u  %-26s %-*s %-*s %s\n",
+        fprintf(stderr,"%6u %4u  %-26s %-*s %-*s %s\n",
             op->lineno, i, (zend_get_opcode_name(op->opcode) ?: "?"),
             OPCOL_W, op1, OPCOL_W, op2, result);
     }
 
 #undef OPCOL_W
-    fprintf(stdout, "\n");
+    fprintf(stderr,"\n");
 
     for (uint32_t i = 0; i < op_array->num_dynamic_func_defs; i++)
         dump_op_array(op_array->dynamic_func_defs[i]);
