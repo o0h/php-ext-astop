@@ -1,22 +1,20 @@
-FROM php:8.5.4-cli AS builder
+FROM php:8.5.4-cli
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         autoconf \
+        bison \
         gcc \
+        git \
+        libtool \
         make \
+        unzip \
     && rm -rf /var/lib/apt/lists/*
 
-COPY astop.c config.m4 /usr/src/astop/
+RUN curl -fsSL https://github.com/php/pie/releases/latest/download/pie.phar \
+        -o /usr/local/bin/pie \
+    && chmod +x /usr/local/bin/pie
 
-WORKDIR /usr/src/astop
-RUN phpize && ./configure && make
-
-
-FROM php:8.5.4-cli
-
-COPY --from=builder /usr/src/astop/modules/astop.so /tmp/astop.so
-RUN install -m 755 /tmp/astop.so "$(php-config --extension-dir)/astop.so" \
-    && rm /tmp/astop.so \
+RUN pie install --skip-enable-extension o0h/astop \
     && echo "extension=astop" > /usr/local/etc/php/conf.d/astop.ini
 
 WORKDIR /work

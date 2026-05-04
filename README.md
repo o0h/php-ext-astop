@@ -48,6 +48,14 @@ docker run --rm -e ASTOP_MODE=no_exec -v "$(pwd):/work" astop /work/your_script.
 
 ---
 
+## Install via PIE
+
+[PIE](https://github.com/php/pie) is the official PHP extension installer.
+
+```bash
+pie install o0h/astop
+```
+
 ## Build from source
 
 ```bash
