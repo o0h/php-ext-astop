@@ -1,0 +1,30 @@
+# Build artifacts
+*.o
+*.lo
+*.la
+*.so
+*.so.dSYM/
+
+# libtool
+.libs/
+libtool
+
+# autoconf / automake
+autom4te.cache/
+config.h
+config.h.in
+config.log
+config.nice
+config.status
+configure
+Makefile
+Makefile.fragments
+Makefile.objects
+
+# PHP extension build output
+modules/
+build/
+run-tests.php
+
+# Dependency files
+*.dep

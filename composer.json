@@ -1,0 +1,18 @@
+{
+    "name": "o0h/astop",
+    "description": "A PHP extension that intercepts the compilation pipeline and prints the AST and opcodes",
+    "type": "php-ext",
+    "license": "MIT",
+    "require": {
+        "php": "^8.4"
+    },
+    "extra": {
+        "php-ext": {
+            "extension-name": "astop"
+        }
+    },
+    "support": {
+        "source": "https://github.com/o0h/php-ext-astop",
+        "issues": "https://github.com/o0h/php-ext-astop/issues"
+    }
+}
